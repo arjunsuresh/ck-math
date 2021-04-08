@@ -7,16 +7,17 @@
 # See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
-# - Anton Lokhmotov, anton@dividiti.com, 2016.
+# - Arjun Suresh, arjun@krai.ai, 2021.
 #
 
 # PACKAGE_DIR
 # INSTALL_DIR
 
-
-export CC=${CK_CC}
-export FC=${CK_FC}
-export AR=${CK_AR}
+if [ "${CK_COMPILER_TOOLCHAIN_NAME}" != "" ] ; then
+  TOOLCHAIN=$CK_COMPILER_TOOLCHAIN_NAME
+else
+  TOOLCHAIN=gcc
+fi
 
 # Building OpenBLAS produces lots of output which gets redirected to file.
 cd ${INSTALL_DIR}/${PACKAGE_SUB_DIR}

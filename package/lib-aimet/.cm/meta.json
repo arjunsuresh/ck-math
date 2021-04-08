@@ -2,11 +2,11 @@
   "customize": {
     "extra_dir": "",
     "install_env": {
-      "*PACKAGE_CONFIGURE_FLAGS": "-DUSE_IPPICV=OFF -DBUILD_ZLIB=ON -DWITH_JPEG=ON -DWITH_1394=OFF -DBUILD_JPEG=ON -DBUILD_PNG=ON -DBUILD_TIFF=ON -DWITH_CUDA=OFF -DWITH_MATLAB=OFF -DWITH_LAPACK=OFF -DWITH_MKL=OFF -DBUILD_ANDROID_EXAMPLES=OFF -DBUILD_SHARED_LIBS=$<<BUILD_SHARED_LIBS>>$ -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DWITH_CAROTENE=OFF",
+      "*PACKAGE_CONFIGURE_FLAGS": "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TENSORFLOW=FALSE",
       "BUILD_SHARED_LIBS": "OFF",
       "CMAKE_CONFIG": "Release",
-      "FILE_EXT_LINUX": ".a",
-      "FILE_EXT_VER": "430",
+      "FILE_EXT_LINUX": "",
+      "FILE_EXT_VER": "",
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
       "PACKAGE_COPY": "NO",
@@ -18,6 +18,9 @@
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "NO",
       "PACKAGE_UNZIP": "NO",
       "PACKAGE_UNZIP_SKIP_ERROR": "YES",
+      "PACKAGE_GIT_CHECKOUT": "87a216f6164bc75f066627087f139eff77d9ebc3",
+      "PACKAGE_SUB_DIR": "src",
+      "PACKAGE_SUB_DIR1": "src",
       "PACKAGE_URL": "https://github.com/quic/aimet",
       "PACKAGE_WGET": "NO"
     },
@@ -39,7 +42,7 @@
     }
   },
   "end_full_path": {
-    "linux": "install/lib/libaimet$<<FILE_EXT_LINUX>>$"
+    "linux": "install/staging/universal/lib/python"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
@@ -50,10 +53,41 @@
   ],
   "process_script": "install",
   "soft_uoa": "18eb79fe079438fb",
+  "use_preprocess_scripts_from_another_entry": {
+    "data_uoa": "fd44428fbc77f77f",
+    "module_uoa": "84e27ad9dd12e734"
+  },
   "suggested_path": "lib-aimet",
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",
     "module_uoa": "script"
+  },
+  "deps": {
+    "python": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "Python 3.6",
+      "sort": 20,
+      "tags": "compiler,python,v3.6"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "lapacke": {
+      "local": "yes",
+      "name": "LAPACKE Shared Library",
+      "sort": 10,
+      "tags": "lapacke,vshared"
+    },
+    "opencv": {
+      "local": "yes",
+      "name": "OpenCV Custom Build for Aimet",
+      "sort": 10,
+      "tags": "lib,opencv,for-aimet"
+    }
   },
   "tags": [
     "lib",
@@ -66,20 +100,24 @@
         "version": "master"
       },
       "extra_env": {
-        "*PACKAGE_CONFIGURE_FLAGS": "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON ../aimet -DENABLE_TENSORFLOW=FALSE -DENABLE_CUDA=FALSE",
-        "FILE_EXT_VER": "",
-        "PACKAGE_GIT": "YES",
-	"PACKAGE_GIT_CHECKOUT": "87a216f6164bc75f066627087f139eff77d9ebc3",
-        "PACKAGE_SUB_DIR": "src",
-        "PACKAGE_SUB_DIR1": "src",
-        "PACKAGE_UNZIP": "NO",
-        "PACKAGE_WGET": "NO",
-        "PACKAGE_WGET_EXTRA": ""
+        "PACKAGE_CONFIGURE_FLAGS_LINUX": "-DENABLE_CUDA=FALSE -DLAPACKE_DIR=$<<CK_ENV_LIB_LAPACK>>$"
       },
       "extra_tags": [
         "vmaster"
       ],
       "on_by_default": "yes"
+    },
+    "with-cuda": {
+      "extra_customize": {
+        "version": "with-cuda"
+      },
+      "extra_env": {
+        "PACKAGE_CONFIGURE_FLAGS_LINUX": "-DENABLE_CUDA=TRUE -DLAPACKE_DIR=$<<CK_ENV_LIB_LAPACK>>$"
+      },
+      "extra_tags": [
+        "vmaster"
+      ],
+      "on_by_default": "no"
     }
   }
 }
